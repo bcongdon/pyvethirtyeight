@@ -1,6 +1,9 @@
 # PyveThirtyEight
 > A Python wrapper for the 2016 [FiveThirtyEight](projects.fivethirtyeight.com/2016-election-forecast/) Presidential Election Forecast 
 
+[![PyPI version](https://badge.fury.io/py/pyvethirtyeight.svg)](https://badge.fury.io/py/pyvethirtyeight)
+[![Build Status](https://travis-ci.org/bcongdon/pyvethirtyeight.svg?branch=master)](https://travis-ci.org/bcongdon/pyvethirtyeight)
+
 ## Installation
 ```
 pip install pyvethirtyeight
