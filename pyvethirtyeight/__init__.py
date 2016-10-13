@@ -3,6 +3,10 @@ from bs4 import BeautifulSoup
 import re
 import json
 from datetime import timedelta, datetime
+from collections import namedtuple
+import dateparser
+
+Forecast = namedtuple('Forecast', ['date', 'party', 'candidate', 'models'])
 
 
 class FiveThirtyEight:
@@ -26,12 +30,23 @@ class FiveThirtyEight:
         json_str = json_str[json_str.find('{') - 1:]
         return json.loads(json_str)
 
-    def latest_models(self):
-        return self.data['latest']
+    def _dict_to_forcast(self, forecast_dict):
+        return Forecast(date=dateparser.parse(forecast_dict['date']),
+                        party=forecast_dict['party'],
+                        candidate=forecast_dict['candidate'],
+                        models=forecast_dict['models'])
+
+    def latest_forecasts(self):
+        return [self._dict_to_forcast(x) for x in
+                self.data['latest'].values()]
+
+    def all_forecasts(self):
+        return [self._dict_to_forcast(x) for x in
+                self.data['forecasts']['all']]
 
     def current_leader(self, model='polls'):
-        return max(self.latest_models().values(),
-                   key=lambda x: x['models'][model]['winprob'])
+        return max(self.latest_forecasts(),
+                   key=lambda x: x.models[model]['winprob'])
 
     @property
     def data(self):
@@ -39,3 +54,4 @@ class FiveThirtyEight:
                 datetime.now() - timedelta(minutes=10) > self._updated_at):
             self._data = self._get_data()
         return self._data
+
