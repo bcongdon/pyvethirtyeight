@@ -1,3 +1,7 @@
+"""
+A Python wrapper for the 2016 FiveThirtyEight Presidential Election Forecast
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -5,6 +9,9 @@ import json
 from datetime import timedelta, datetime
 from collections import namedtuple
 import dateparser
+
+__version__ = '1.0.2'
+
 
 Forecast = namedtuple('Forecast', ['date', 'party', 'candidate', 'models'])
 
