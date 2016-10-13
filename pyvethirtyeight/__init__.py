@@ -54,4 +54,3 @@ class FiveThirtyEight:
                 datetime.now() - timedelta(minutes=10) > self._updated_at):
             self._data = self._get_data()
         return self._data
-
