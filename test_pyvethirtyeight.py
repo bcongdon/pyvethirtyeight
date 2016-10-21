@@ -2,7 +2,7 @@ from pyvethirtyeight import FiveThirtyEight
 import unittest
 
 
-class TestStringMethods(unittest.TestCase):
+class TestForecasts(unittest.TestCase):
     def setUp(self):
         self.fte = FiveThirtyEight()
 
