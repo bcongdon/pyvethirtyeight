@@ -16,9 +16,7 @@ __version__ = '1.0.2'
 Forecast = namedtuple('Forecast', ['date', 'party', 'candidate', 'models'])
 
 
-class FiveThirtyEight:
-
-    forecast_url = 'http://projects.fivethirtyeight.com/2016-election-forecast'
+class FiveThirtyEight(object):
 
     def __init__(self):
         self._data = None
@@ -29,7 +27,7 @@ class FiveThirtyEight:
         Requests the FiveThirtyEight forecaster page and returns a
         BeautifulSoup object
         """
-        html = requests.get(FiveThirtyEight.forecast_url).text
+        html = requests.get(self.__class__.forecast_url).text
         self._soup = BeautifulSoup(html, 'html.parser')
         return self._soup
 
@@ -50,6 +48,23 @@ class FiveThirtyEight:
 
         # Return the JSON data as a dict
         return json.loads(json_str)
+
+    @property
+    def data(self):
+        """
+        Property to hold the current JSON dict of the FiveThirtyEight
+        forecaster
+
+        Caches for 10 minutes
+        """
+        if (not self._data or not self._updated_at or
+                datetime.now() - timedelta(minutes=10) > self._updated_at):
+            self._data = self._extract_data(self._get_soup())
+        return self._data
+
+
+class President(FiveThirtyEight):
+    forecast_url = 'http://projects.fivethirtyeight.com/2016-election-forecast'
 
     def _dict_to_forcast(self, forecast_dict):
         """
@@ -87,15 +102,7 @@ class FiveThirtyEight:
         return max(self.latest_forecasts(),
                    key=lambda x: x.models[model]['winprob'])
 
-    @property
-    def data(self):
-        """
-        Property to hold the current JSON dict of the FiveThirtyEight
-        forecaster
 
-        Caches for 10 minutes
-        """
-        if (not self._data or not self._updated_at or
-                datetime.now() - timedelta(minutes=10) > self._updated_at):
-            self._data = self._extract_data(self._get_soup())
-        return self._data
+class Senate(FiveThirtyEight):
+    forecast_url = 'http://projects.fivethirtyeight.com/' \
+                   '2016-election-forecast/senate/'
