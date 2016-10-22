@@ -11,9 +11,10 @@ pip install pyvethirtyeight
 
 ## Usage
 ```python
-from pyvethirtyeight import FiveThirtyEight
+from pyvethirtyeight import President, Senate
 
-f = FiveThirtyEight()
+# Presidential Election Forecasts
+f = President()
 
 # Latest Forecasts (Unordered)
 latest = f.latest_forecasts()
@@ -21,14 +22,18 @@ latest[0].party # 'D'
 
 # Current Leader (returns Forecast of latest leader)
 leader = f.current_leader()
-print leader.models['plus']['winprob'] # 83.99
+print(leader.models['plus']['winprob']) # 83.99
 
 # Current Leader by Model
 leader = f.current_leader(model='now')
-print leader.models['now']['winprob'] # 90.4
+print(leader.models['now']['winprob']) # 90.4
 
 # All Forecasts
 all_forecasts = f.all_forecasts()
+
+# Same methods also work with Senate predictions
+s = Senate()
+print(s.latest_forecasts()[0].models['polls']['winprob']) # 67.33596
 ```
 
 #### The Forecast Object
