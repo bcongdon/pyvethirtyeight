@@ -10,7 +10,7 @@ from datetime import timedelta, datetime
 from collections import namedtuple
 import dateparser
 
-__version__ = '1.0.2'
+__version__ = '1.1.0'
 
 
 Forecast = namedtuple('Forecast', ['date', 'party', 'candidate', 'models'])
