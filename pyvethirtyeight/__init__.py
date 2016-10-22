@@ -62,10 +62,6 @@ class FiveThirtyEight(object):
             self._data = self._extract_data(self._get_soup())
         return self._data
 
-
-class President(FiveThirtyEight):
-    forecast_url = 'http://projects.fivethirtyeight.com/2016-election-forecast'
-
     def _dict_to_forcast(self, forecast_dict):
         """
         Returns a Forecast namedtuple from a FiveThirtyEight forecast dict
@@ -101,6 +97,10 @@ class President(FiveThirtyEight):
         """
         return max(self.latest_forecasts(),
                    key=lambda x: x.models[model]['winprob'])
+
+
+class President(FiveThirtyEight):
+    forecast_url = 'http://projects.fivethirtyeight.com/2016-election-forecast'
 
 
 class Senate(FiveThirtyEight):

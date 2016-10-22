@@ -2,10 +2,7 @@ from pyvethirtyeight import President, Senate
 import unittest
 
 
-class TestPresidentialForecasts(unittest.TestCase):
-    def setUp(self):
-        self.fte = President()
-
+class ForecastTest(object):
     def validate_forecast(self, forecast):
         assert forecast
         assert forecast.date
@@ -24,19 +21,17 @@ class TestPresidentialForecasts(unittest.TestCase):
             self.validate_forecast(x)
 
     def test_current_leader(self):
-        d = self.fte.data
         self.validate_forecast(self.fte.current_leader())
 
 
-class TestSenateForecasts(unittest.TestCase):
+class TestPresidentForecasts(ForecastTest, unittest.TestCase):
+    def setUp(self):
+        self.fte = President()
+
+
+class TestSenateForecasts(ForecastTest, unittest.TestCase):
     def setUp(self):
         self.fte = Senate()
-
-    def test_senate_latest(self):
-        d = self.fte.data
-        import json
-        with open('out.json', 'w+') as f:
-            f.write(json.dumps(d))
 
 if __name__ == '__main__':
     unittest.main()
